@@ -15,15 +15,24 @@ This dataset gives insight into the arrest data within NFL stadiums. It includes
 
 ```{r}
 library(ggplot2)
+library(dplyr)
+library(caret)
 data = read.csv("arrests.csv")
+data$score_diff = data$home_score - data$away_score
 head(data)
 ```
 
 ## Research Question:
 
-Is there a correlation between a home team losing the game and the number of arrests that are made within a stadium? 
+Is there a correlation between the score differential in a game and the number of arrests made within a stadium? 
 
+## Data visualization and analysis:
 
+```{r}
+correlation = cor(data$arrests, data$score_diff, use = "complete.obs")
+correlation
+plot(y = data$arrests, x = data$score_diff)
 
+```
 
 
