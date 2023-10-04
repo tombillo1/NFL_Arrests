@@ -12,20 +12,22 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(ggplot2)
 data = read.csv("rankings.csv")
-head(data)
-new_data = data[1:100, ]
+data = na.omit(data)
+data$University.Rank <- as.numeric(data$University.Rank)
+data$Research.Score <- as.numeric(data$Research.Score)
+
 
 # https://www.kaggle.com/datasets/alitaqi000/world-university-rankings-2023
-ggplot(new_data, aes(x = University.Rank, y = Research.Score)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE, color = "red") +
+plot = ggplot(data, aes(x = University.Rank, y = Research.Score)) +
+  geom_point(alpha = 0.5) +
+    geom_smooth(method = "lm", se = FALSE, color = "red") +
   labs(x = "University Rank", y = "Research Score") +
-  ggtitle("Univeristy Rank vs Research Score")
+  ggtitle("University Rank vs Research Score")
 
-new_data <- transform(data, University.Rank = as.numeric(as.factor(University.Rank)))
-new_data <- transform(new_data, Research.Score = as.numeric(as.factor(Research.Score)))
+plot
 
-correlation = cor(new_data$University.Rank, new_data$Research.Score)
+
+correlation = cor(data$University.Rank, data$Research.Score)
 correlation
 
 ```
