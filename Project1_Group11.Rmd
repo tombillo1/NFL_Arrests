@@ -16,12 +16,13 @@ data = na.omit(data)
 data$University.Rank <- as.numeric(data$University.Rank)
 data$Research.Score <- as.numeric(data$Research.Score)
 
+model <- lm(University.Rank ~ Research.Score + 0, data = data)
 
 # https://www.kaggle.com/datasets/alitaqi000/world-university-rankings-2023
-plot = ggplot(data, aes(x = University.Rank, y = Research.Score)) +
-  geom_point(alpha = 0.5) +
-    geom_smooth(method = "lm", se = FALSE, color = "red") +
-  labs(x = "University Rank", y = "Research Score") +
+plot = ggplot(data, aes(x = Research.Score, y = University.Rank)) +
+    geom_point(alpha = 0.5) +
+    geom_smooth(method = "lm", se = FALSE, color = "red") + ylim(0, NA) +
+  labs(y = "University Rank", x = "Research Score") +
   ggtitle("University Rank vs Research Score")
 
 plot
