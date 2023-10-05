@@ -16,7 +16,7 @@ data = na.omit(data)
 data$University.Rank <- as.numeric(data$University.Rank)
 data$Research.Score <- as.numeric(data$Research.Score)
 
-model <- lm(University.Rank ~ Research.Score + 0, data = data)
+model <- lm(University.Rank ~ Research.Score, data = data)
 
 # https://www.kaggle.com/datasets/alitaqi000/world-university-rankings-2023
 plot = ggplot(data, aes(x = Research.Score, y = University.Rank)) +
@@ -30,6 +30,19 @@ plot
 
 correlation = cor(data$University.Rank, data$Research.Score)
 correlation
-
 ```
+Model stuff
+
+```{r}
+coefficients <- coef(model)
+intercept <- coefficients[1]
+slope <- coefficients[2]
+
+intercept
+slope
+
+summary(model)
+```
+
+
 
