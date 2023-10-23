@@ -43,7 +43,7 @@ plot
 correlation = cor(data$University.Rank, data$Research.Score)
 # correlation
 ```
-From the graph we can assume a strong negative linear relationship between research score and university ranking. We see that as research score increases, rank decreases(goes towards better rank).  
+From the graph there appears to be a strong negative linear relationship between research score and university ranking, however this will be validated in later tests. We see that as research score increases, rank decreases(goes towards better rank).  
   
 More information can be observed from better understanding the linear model:
 ```{r chunk2, echo=FALSE, warning=FALSE, comment=NA, message = FALSE}
@@ -73,6 +73,7 @@ Correlation:
 * The R^2 value indicates that 54.2% of the variation in university rank can be explained by the research score.  
 * The estimated residual standard error is s = 331.8 on 1695 degrees of freedom. This indicates that there is some variability in the models predictions.    
 * Correlation coefficient between University.Rank and Research.Score: -0.736. This indicates a strong negative correlation, as one variable increases the other decreases.  
+
 
 
 
