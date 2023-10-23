@@ -137,12 +137,38 @@ From these observations, we can choose the logarithmic transformed model as the 
 
 ## Assumptions:
 
-```{r chunk9, echo=FALSE, warning=FALSE, comment=NA, message = FALSE}
+Follow the choosing of the logarithmic transformation model we now have to check the assumptions.  
 
+Fitted values plot:  
+```{r chunk9, echo=FALSE, warning=FALSE, comment=NA, message = FALSE}
+plot(model2$residuals ~ model2$fitted.values, pch = 20)
 ```
+\newpage  
+QQplot of residuals:  
+```{r chunk10, echo=FALSE, warning=FALSE, comment=NA, message = FALSE}
+library(car)
+qqPlot(model2$residuals, pch = 20)
+```
+\newpage  
+Residuals vs Research Score:  
+```{r chunk11, echo=FALSE, warning=FALSE, comment=NA, message = FALSE}
+plot(model2$residuals~data$Research.Score, pch = 20)
+abline(h=0, lty=3)
+```
+\newpage  
+Histogram:  
+```{r chunk12, echo=FALSE, warning=FALSE, comment=NA, message = FALSE}
+hist(model2$residuals)
+```
+Assumption information:
+
+Our data prior to transformation failed to meet most of our assumptions.  The relationship between research score and rank was nonlinear and appeared to follow a logarithmic trend.  Our assumption of constant variance also failed since our residuals and fitted values had a negative relationship.  The data was also not normally distributed, as most of the points in our QQ plot of residuals were not in the ideal range.  We were however able to assume that our data was independent.
+After the transformation, our data followed a much stronger linear trend than before with a linear correlation score of -0.907, compared to -0.736 prior to transformation.   However, our test for constant variance failed again, but it was much closer than before.  The data is much closer to a normal distribution, but it still failed to satisfy our assumption.  We can still assume that the data was independent.
+
+\newpage  
 
 ## Conclusions:
 
-
+We were able to find a strong correlation between research score and the overall rank of a university. This being said, the relationship between them was not a simple linear regression. After a logarithmic transformation, the data fits into a linear regression much better (although still imperfectly). The information can be used to estimate a university’s overall rank given how good its research program is. A possible extension of this could be for people who want to improve their university’s standings, it is possible using this model to predict how good a university’s research program needs to be to reach a certain ranking. Another possible extension of this is for prospective students, if a student was interested in research specifically, they can predict how good a university’s research program will be based on its ranking.  
 
 
