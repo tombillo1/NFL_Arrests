@@ -96,7 +96,8 @@ plot2 = ggplot(data, aes(x = Research.Score, y = University.Rank)) +
   ggtitle("University Rank vs Research Score")
 plot2
 ```
-
+\newpage
+  
 ### Prediction:
   
 ```{r chunk5, echo=FALSE, warning=FALSE, comment=NA, message = FALSE}
@@ -104,13 +105,39 @@ plot2
 ```
 ### Transformation and Comparison:
 
+Due to the shape of the data, a logarithmic transformation was applied.  
+Graph of transformed data:  
 ```{r chunk6, echo=FALSE, warning=FALSE, comment=NA, message = FALSE}
+ln_y = log(data$University.Rank)
+
+plot2 = ggplot(data, aes(x = Research.Score, y = ln_y)) +
+    geom_point(alpha = 0.5) +
+    geom_smooth(method = "lm", se = TRUE, color = "blue") + ylim(0, NA) +
+  labs(y = "University Rank", x = "Research Score") +
+  ggtitle("University Rank vs Research Score")
+plot2
 
 ```
+  
+Model information:  
+```{r chunk7, echo=FALSE, warning=FALSE, comment=NA, message = FALSE}
+model2 = lm(ln_y~Research.Score, data=data)
+summary(model2)
+```
+From the transformation we can see that the R^2 value of the model is 0.8221. In comparison to the value from the original model (0.542) we can see that the there is a much stronger relationship between the variables when transformed. 
+
+Correlation coefficient between log. transformed rank and research score:
+```{r chunk8, echo=FALSE, warning=FALSE, comment=NA, message = FALSE}
+cor(log(data$University.Rank), data$Research.Score)
+```
+  
+From this score we see that the data also has a much stronger negative linear correlation with a score of -0.9067089 compared to the -0.736 value for the non-transformed rank.  
+  
+From these observations, we can choose the logarithmic transformed model as the better model. 
 
 ## Assumptions:
 
-```{r chunk7, echo=FALSE, warning=FALSE, comment=NA, message = FALSE}
+```{r chunk9, echo=FALSE, warning=FALSE, comment=NA, message = FALSE}
 
 ```
 
