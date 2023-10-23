@@ -1,15 +1,27 @@
 ---
-title: "Project1_Group11"
+title: "Impact of Research on Univerisity Rankings"
 author: "Thomas Billington, Steven Bottone, Nart Hakij, and Joe Manley"
 date: "`r Sys.Date()`"
-output: pdf_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-### Data:
-```{r}
+
+## Introduction:
+* Many schools either brand themselves as teaching, professional, or research focused universities.  
+* By measuring the trends of institutions across the globe we can determine if their ability to conduct meaningful research correlate to its statute.  
+* Goal: Does a university’s research efforts have an effect on its global ranking?  
+* Response variable: Global ranking  
+* Explanatory variable: Research score (out of 100)  
+* Observations: 1695 universities  
+
+## Analysis: 
+To better understand the relationship, a thorough statistical analysis was conducted.    
+```{r chunk1, echo=FALSE, warning=FALSE, comment=NA, message = FALSE}
 library(ggplot2)
 data = read.csv("rankings.csv")
 data = na.omit(data)
@@ -29,20 +41,65 @@ plot
 
 
 correlation = cor(data$University.Rank, data$Research.Score)
-correlation
+# correlation
 ```
-Model stuff
-
-```{r}
+From the graph we can assume a strong negative linear relationship between research score and university ranking. We see that as research score increases, rank decreases(goes towards better rank).  
+  
+More information can be observed from better understanding the linear model:
+```{r chunk2, echo=FALSE, warning=FALSE, comment=NA, message = FALSE}
 coefficients <- coef(model)
 intercept <- coefficients[1]
 slope <- coefficients[2]
 
-intercept
-slope
-
 summary(model)
 ```
+From this summary output we can note a few key details about the model.
+
+* Ŷ = 1346.679 + (-21.23218)*X
+* Ŷ is university ranking
+* X is research score of university  
+
+## Statistical Tests and Inference:  
+  
+Hypothesis Testing:  
+
+* H0: There is no association between university ranking and research score  
+* H1: There is an association between university ranking and research score    
+  
+The p-value was 2.2e^-16 which is much lower than the significance level of 0.05. Therefore, we can reject the null hypothesis, indicating that there is a strong statistical evidence that when university ranking decreases or gets closer to rank 1, research score increases.  
+  
+Correlation:    
+
+* The R^2 value indicates that 54.2% of the variation in university rank can be explained by the research score.  
+* The estimated residual standard error is s = 331.8 on 1695 degrees of freedom. This indicates that there is some variability in the models predictions.    
+* Correlation coefficient between University.Rank and Research.Score: -0.736. This indicates a strong negative correlation, as one variable increases the other decreases.  
 
 
+
+
+
+
+Confidence Intervals:
+```{r}
+confidence_interval <- confint(model, level = 0.95)
+confidence_interval
+```
+Prediction stuff
+```{r}
+new_data <- data.frame(Research.Score = 60)
+pred_int <- predict(model, newdata = new_data, interval = "prediction", level = 0.95)
+pred_int
+lower_bounds <- pred_int[, 1]
+upper_bounds <- pred_int[, 2]
+
+# Set negative lower bounds to 0
+lower_bounds <- pmax(lower_bounds, 0)
+
+# Set negative upper bounds to 0
+upper_bounds <- pmax(upper_bounds, 0)
+
+# Combine the modified lower and upper bounds into a matrix
+pred_int <- cbind(lower_bounds, upper_bounds)
+pred_int
+```
 
