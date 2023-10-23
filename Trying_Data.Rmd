@@ -1,0 +1,34 @@
+---
+title: "Trying Data"
+output: html_document
+date: "2023-10-04"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(car)
+library(ggplot2)
+Data = read.csv("/Users/stevenb7/Library/CloudStorage/OneDrive-VirginiaTech/Fall 2023/Stat 3006/Projects/Project 1/project1_group11/rankings.csv")
+```
+
+```{r}
+Data$Research.Score <- as.numeric(Data$Research.Score)
+Data$University.Rank <- as.numeric(Data$University.Rank)
+slr = lm(University.Rank ~ Research.Score, data = Data)
+summary(slr)
+
+confint(slr, level = 0.95)
+
+#Plots for assumptions
+plot(slr$residuals ~ slr$fitted.values, xlab="Fitted Values", ylab="Residuals", main="Residuals vs. Fitted Values",pch = 20)
+qqPlot(slr$residuals, xlab="Norm Quantiles", ylab="Residuals", main="QQ Plot of Residuals", pch = 20)
+
+#Confidence Interval Plot
+ggplot(Data, aes(x=Research.Score, y=University.Rank)) + geom_point() +
+  geom_smooth(method=lm, se=TRUE) + ylim(0, NA)
+  labs(title = 'University Rank vs. Research Score Confidence Interval', x = 'Research Score', y = 'University Rank')
+  
+#Prediction Data and Plots
+Pred_Data = data.frame('Research.Score' = 60)
+predict.lm(slr, newdata = Pred_Data, interval = 'prediction', level = 0.95)
+```
